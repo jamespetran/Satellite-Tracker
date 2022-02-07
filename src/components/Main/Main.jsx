@@ -3,7 +3,7 @@
 function Main() {
 
   return (
-    <p>
+    <p className="main-content">
       main page :)
     </p>
   )

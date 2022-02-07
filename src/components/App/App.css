@@ -19,7 +19,8 @@ Container
 -------------------------------------------------------------------------------- */
 
 .container {
-  padding: 20px;
+  padding: 15px;
+  align-self: stretch;
 }
 
 /* --------------------------------------------------------------------------------
@@ -121,4 +122,11 @@ input {
   min-height: 100vh;
   flex-direction: column;
   justify-content: space-between;
+}
+.main-content{
+  /* this allows this content to fit exactly within the header and footer bars */
+  flex-grow: 2;
+  padding: 15px;
+  align-self: stretch;
+  
 }
