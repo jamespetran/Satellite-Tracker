@@ -35,11 +35,11 @@ function App() {
   return (
     <Router>
       <div className="content-wrapper-push-outside-col">
-        <div className="nav container" id="header">
-          <Link to="/home">
+        <Link to="/home">
+          <div className="nav container" id="header">
             <h1 className="nav-title">Satellite Tracker</h1>
-          </Link>
-        </div>
+          </div>
+        </Link>
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/home" />
@@ -119,7 +119,7 @@ function App() {
             <h1>404</h1>
           </Route>
         </Switch>
-        <Footer 
+        <Footer
           id="footer-container"
         />
       </div>

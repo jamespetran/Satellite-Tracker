@@ -10,7 +10,7 @@ function Nav() {
   const user = useSelector((store) => store.user);
 
   return (
-    <div className="nav">
+    <div className="nav" id="bottom-nav">
       <div id="icon-container">
         <Link className="navLink" to="/home">
           <SatelliteIcon className="nav-icon" />
