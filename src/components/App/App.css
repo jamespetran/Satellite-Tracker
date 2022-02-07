@@ -32,7 +32,7 @@ Button
   border-color: #014041;
   border-width: 1px 1px 3px;
   border-radius: 4px;
-  background-color: #00acb0;
+  background-color: #2f6263;
   color: #f8f8f8;
   font-size: 1.1rem;
   outline: 0;
@@ -109,4 +109,16 @@ Form Treatment
 input {
   margin: 5px;
   margin-bottom: 10px;
+}
+#header {
+  padding: 16px 0px;
+  font-size: larger;
+  justify-content: center;
+  margin: 0;
+}
+.content-wrapper-push-outside-col{
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
 }
