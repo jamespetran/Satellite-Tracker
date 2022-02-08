@@ -32,6 +32,13 @@ router.post('/register', (req, res, next) => {
     });
 });
 
+// handles ajax requests to set email
+router.post('/email', (req,res) => {
+    // const email = req.body;
+    console.log('post /email router');s
+    console.log(req);
+})
+
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful

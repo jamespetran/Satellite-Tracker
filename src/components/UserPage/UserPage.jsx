@@ -1,14 +1,16 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import LogOutButton from '../LogOutButton/LogOutButton';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 function UserPage() {
+  const dispatch = useDispatch();
+
   // this component doesn't do much to start, just renders some user reducer info to the DOM
   const user = useSelector((store) => store.user);
 
   // if user email === \null\, then set this state to '' (blank string) 
-  // (react doesn't like assigning \null\ to the value below)
+  // (react doesn't like assigning \null\ to the input below)
   const [emailInput, setEmailInput] = useState(
     user.email === null ? "" : user.email
   );
