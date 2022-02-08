@@ -19,6 +19,7 @@ function* fetchSatellites() {
     // with an id and username set the client-side user object to let
     // the client-side code know the user is logged in
     // yield put({ type: 'SET_SATELLITE', payload: response.data });
+    yield put({type: "SET_SATELLITE", payload: response.data})
   } catch (error) {
     console.log('Satellite get request failed', error);
   }

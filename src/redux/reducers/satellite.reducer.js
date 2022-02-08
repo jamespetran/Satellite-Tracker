@@ -1,4 +1,4 @@
-const satelliteReducer = (state = {}, action) => {
+const satelliteReducer = (state = [], action) => {
   switch (action.type) {
     case 'SET_SATELLITE':
       return action.payload;
