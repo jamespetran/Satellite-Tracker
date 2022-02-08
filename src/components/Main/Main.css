@@ -13,3 +13,11 @@
   flex-grow: 1;
   width: 50%;
 }
+#orbiter-details {
+  display: flex;
+  flex-flow:column nowrap;
+  justify-content:space-between;
+}
+#orbit-details-btn{
+  padding: 1em;
+}

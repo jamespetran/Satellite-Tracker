@@ -1,6 +1,6 @@
 const satelliteReducer = (state = [], action) => {
   switch (action.type) {
-    case 'SET_SATELLITE':
+    case 'SET_SATELLITES':
       return action.payload;
     default:
       return state;
