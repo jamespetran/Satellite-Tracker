@@ -32,38 +32,6 @@ router.post('/register', (req, res, next) => {
     });
 });
 
-// handles ajax requests to set email
-router.post('/email', rejectUnauthenticated, (req, res) => {
-  const email = req.body.email;
-  console.log('post /email router w/ value:', email);
-  // console.log('user:',req.user)
-  console.log(req.body.email);
-  if (validateEmail(email)) {
-    const sqlQuery = `
-      UPDATE "user"
-      SET email = $1
-      WHERE id = $2
-    `;
-    const sqlParams = [email, req.user.id]
-    pool.query(sqlQuery, sqlParams)
-      .then(dbRes => {
-        res.sendStatus(201);
-      })
-      .catch(error => {
-        //if fail:
-        res.status(500).send(error);
-      })
-  } else {
-    const error = { type: "data validation failure", attempt: email }
-    res.status(500).send(error)
-  }
-})
-
-function validateEmail(email) {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email);
-}
-
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful
