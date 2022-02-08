@@ -30,13 +30,15 @@ function* setEmail(action) {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true,
     };
+
+    const email = { email: action.payload }
     // the config includes credentials which
     // allow the server session to recognize the user
     // If a user is logged in, this will return their information
     // from the server session (req.user)
     // this will allow a user to set their email
     console.log('action.payload:',action.payload)
-    yield axios.post('/api/user/email', action.payload);
+    yield axios.post('/api/user/email', email);
 
     // now have to get updated user info including inputted email address
     yield put({ type: 'FETCH_USER' });
