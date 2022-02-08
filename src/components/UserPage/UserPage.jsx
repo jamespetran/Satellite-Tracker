@@ -13,6 +13,8 @@ function UserPage() {
     user.email === null ? "" : user.email
   );
 
+  const [emailEdit, setEmailEdit] = useState(false);
+
 
   const handleSubmit = (evt) => {
     //prevent page refresh
@@ -20,33 +22,45 @@ function UserPage() {
 
     //do logic on email input
     console.log("email is", emailInput);
+    dispatch({
+      type: "SET_EMAIL",
+      payload: emailInput,
+    })
 
     //clear inputs
     setEmailInput('');
+    setEmailEdit(false)
   }
-  
-  const cancelForm = () => {
 
+  const cancelForm = () => {
+    setEmailEdit(false)
   }
   return (
     <div className="main-content container">
       <h2>Welcome, {user.username}!</h2>
       <p>Your ID is: {user.id}</p>
-      <form onSubmit={(evt) => handleSubmit(evt)}>
-        <label htmlFor="email-input">Email Address:</label>
-        <br />
-        <input
-          type="email"
-          id="email-input"
-          value={emailInput}
-          onChange={(evt) => setEmailInput(evt.target.value)}
-          required
-        />
-        <input type="submit" />
-        <button onClick={() => cancelForm()}>
-          Cancel
-        </button>
-      </form>
+      {emailEdit === false ?
+        <div>
+          <p>Current Email Address: {user.email}</p>
+          <button id="edit-mode-email-btn" onClick={() => setEmailEdit(true)}>Change</button>
+        </div>
+        :
+        <form onSubmit={(evt) => handleSubmit(evt)}>
+          <label htmlFor="email-input">Email Address:</label>
+          <br />
+          <input
+            type="email"
+            id="email-input"
+            value={emailInput}
+            onChange={(evt) => setEmailInput(evt.target.value)}
+            required
+          />
+          <input type="submit" />
+          <button onClick={() => cancelForm()}>
+            Cancel
+          </button>
+        </form>
+      }
       <LogOutButton className="btn" />
     </div>
   );
