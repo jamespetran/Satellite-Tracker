@@ -1,7 +1,7 @@
-const subHeadReducer = (state = '', action) => {
+const subHeadReducer = (state = {name: ''}, action) => {
   switch (action.type) {
-    case 'SET_SUBHEAD':
-      return action.payload;
+    case 'SET_SUBHEAD_SAT':
+      return {...state, name: action.payload};
     default:
       return state;
   }

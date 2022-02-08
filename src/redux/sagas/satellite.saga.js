@@ -21,6 +21,22 @@ function* fetchSatellites() {
     // yield put({ type: 'SET_SATELLITE', payload: response.data });
     yield put({type: "SET_SATELLITES", payload: response.data})
 
+    // set the displayed satellite to store
+    for (const satellite of response.data) {
+      if( satellite.displayed === true) { 
+        let displayedSat = yield axios.get(`https://tle.ivanstanojevic.me/api/tle/${satellite.noradID}`);
+        yield put({
+          type: `SET_DISPLAYED`,
+          payload: displayedSat.data,
+        });
+        yield put({ 
+          type: "SET_SUBHEAD_SAT", 
+          payload: displayedSat.data.name });
+        return;
+      }
+    }
+
+
   } catch (error) {
     console.log('Satellite get request failed', error);
   }
@@ -38,7 +54,7 @@ function* addDefaultSat(action) {
     // this will add a default satellite so something shows up for the user~
     yield axios.post('/api/satellite/default', username);
 
-    // now have to get updated user info including inputted email address
+    // update satellites store
     yield put({ type: 'GET_SATELLITES' });
   }
   catch (error) {

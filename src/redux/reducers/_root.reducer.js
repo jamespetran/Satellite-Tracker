@@ -3,6 +3,7 @@ import errors from './errors.reducer';
 import user from './user.reducer';
 import subHead from './subHead.reducer';
 import satellites from './satellite.reducer';
+import displayed from './displayed.reducer'
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -14,7 +15,9 @@ const rootReducer = combineReducers({
   errors, // contains registrationMessage and loginMessage
   user, // will have an id and username if someone is logged in
   subHead, // the subheading that shows the section of the app
-  satellites, // stores the currently displayed satellite information
+  satellites, // stores the user's saved satellite information
+  displayed, // stores the currently displayed satellite's info
+
 });
 
 export default rootReducer;

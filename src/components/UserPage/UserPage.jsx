@@ -39,6 +39,10 @@ function UserPage() {
   }
   return (
     <div className="main-content container">
+      <div id="subheader">
+        <h2>Your Account</h2>
+      </div>
+
       <h2>Welcome, {user.username}!</h2>
       <p>Your ID is: {user.id}</p>
       {emailEdit === false ?
