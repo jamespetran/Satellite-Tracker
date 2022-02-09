@@ -1,36 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import useGeolocation from 'react-hook-geolocation'
 
 
 
 function Location() {
   const user = useSelector(store => store.user)
   const dispatch = useDispatch();
-  const geolocation = useGeolocation()
 
-  const getLocation = () => {
-    return geolocation;
-  }
-  // if (!navigator.geolocation) {
-  //   console.error(`Your browser doesn't support Geolocation`);
-  // } else {
-  //   navigator.geolocation.getCurrentPosition(onSuccess, onError);
-  // }
-
-  // const onSuccess = (position) => {
-
-  //   const { latitude, longitude } = position.coords;
-  //   dispatch({
-  //     type: 'SET_LOCATION',
-  //     payload: { latitude, longitude }
-  //   })
-  //   // if 
-  //   console.log(`Your location is: ${latitude}, ${longitude}`)
-
-  // }
-
-  useEffect(getLocation, [])
 
   return (
     <h3>

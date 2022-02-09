@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
+import useGeolocation from 'react-hook-geolocation'
 
 import Footer from '../Footer/Footer';
 
@@ -25,6 +26,15 @@ import Location from '../Location/Location'
 import './App.css';
 
 function App() {
+  const onGeolocationUpdate = geolocation => {
+    console.log('Here’s some new data from the Geolocation API: ', geolocation)
+  }
+
+  const geolocation = useGeolocation({
+    maximumAge:         150000, 
+    timeout:            120000  
+  }, onGeolocationUpdate)
+  
   const dispatch = useDispatch();
   const user = useSelector(store => store.user);
   // console.log('subheader',subheader)
