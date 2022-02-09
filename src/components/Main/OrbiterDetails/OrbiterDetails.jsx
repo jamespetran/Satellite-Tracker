@@ -14,9 +14,9 @@ function OrbiterDetails() {
     dispatch({ type: 'GET_SATELLITES' })
   }, [])
   return (
-    <div id="orbiter-details" className="detail-item">
+    <div id="orbiter-details" className="detail-item content-wrapper-push-outside-col">
       <div className="orbiter-item">
-        <p>Orbiter Details:</p>
+        <h3 className="details-title">Orbiter Details:</h3>
         <div>{satellites.map(satellite => satellite.displayed === true && <p key={satellite.id}>{satellite.noradID}</p>)}</div>
       </div>
       <div className="orbiter-item" id="orbit-details-btn">

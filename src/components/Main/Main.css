@@ -7,7 +7,7 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content:space-around;
-  height: 50%;
+  /* height: 50%; */
 }
 .detail-item{
   flex-grow: 1;
@@ -17,7 +17,17 @@
   display: flex;
   flex-flow:column nowrap;
   justify-content:space-between;
+  min-height: auto;
 }
 #orbit-details-btn{
   padding: 1em;
+}
+#user-details {
+  display: flex;
+  flex-flow:column nowrap;
+  justify-content:space-between;
+  min-height: auto;
+}
+.details-title{
+  margin: 2px;
 }
