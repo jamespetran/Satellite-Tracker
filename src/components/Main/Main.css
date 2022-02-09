@@ -1,0 +1,23 @@
+#cesium-map{
+  position: relative;
+  height: 50%;
+  width: 100%;
+}
+#details-container{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content:space-around;
+  height: 50%;
+}
+.detail-item{
+  flex-grow: 1;
+  width: 50%;
+}
+#orbiter-details {
+  display: flex;
+  flex-flow:column nowrap;
+  justify-content:space-between;
+}
+#orbit-details-btn{
+  padding: 1em;
+}

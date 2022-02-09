@@ -25,21 +25,24 @@ import './App.css';
 
 function App() {
   const dispatch = useDispatch();
-
   const user = useSelector(store => store.user);
-
+  // console.log('subheader',subheader)
   useEffect(() => {
+    dispatch({ type: 'FETCH_DISPLAYED' });
     dispatch({ type: 'FETCH_USER' });
   }, [dispatch]);
 
   return (
     <Router>
       <div className="content-wrapper-push-outside-col">
-        <Link to="/home">
-          <div className="nav container" id="header">
-            <h1 className="nav-title">Satellite Tracker</h1>
-          </div>
-        </Link>
+        <div id="header-container">
+          <Link to="/home">
+            <div className="nav container" id="header">
+              <h1 className="nav-title">Satellite Tracker</h1>
+            </div>
+          </Link>
+        </div>
+
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/home" />
@@ -123,7 +126,7 @@ function App() {
           id="footer-container"
         />
       </div>
-    </Router>
+    </Router >
   );
 }
 

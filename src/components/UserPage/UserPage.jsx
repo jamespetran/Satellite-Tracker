@@ -33,12 +33,12 @@ function UserPage() {
     setEmailInput('');
     setEmailEdit(false)
   }
-
-  const cancelForm = () => {
-    setEmailEdit(false)
-  }
   return (
     <div className="main-content container">
+      <div id="subheader">
+        <h2>Your Account</h2>
+      </div>
+
       <h2>Welcome, {user.username}!</h2>
       <p>Your ID is: {user.id}</p>
       {emailEdit === false ?
@@ -58,7 +58,7 @@ function UserPage() {
             required
           />
           <input type="submit" />
-          <button onClick={() => cancelForm()}>
+          <button onClick={() => setEmailEdit(false)}>
             Cancel
           </button>
         </form>

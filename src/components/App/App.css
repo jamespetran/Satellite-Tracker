@@ -112,7 +112,7 @@ input {
   margin-bottom: 10px;
 }
 #header {
-  padding: 16px 0px;
+  padding: 0px 0px;
   font-size: larger;
   justify-content: center;
   margin: 0;
@@ -126,7 +126,19 @@ input {
 .main-content{
   /* this allows this content to fit exactly within the header and footer bars */
   flex-grow: 2;
-  padding: 15px;
+  padding: 0 15px;
   align-self: stretch;
-  
+  height: 75vh;
+}
+#subheader > h2 {
+   background-color:#444;
+   height: 5vh;
+   text-align: center;
+   color: lightgray;
+   margin: auto;
+
+}
+#subheader{
+margin-left: -15px;
+margin-right: -15px;
 }
