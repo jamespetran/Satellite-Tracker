@@ -33,10 +33,6 @@ function UserPage() {
     setEmailInput('');
     setEmailEdit(false)
   }
-
-  const cancelForm = () => {
-    setEmailEdit(false)
-  }
   return (
     <div className="main-content container">
       <div id="subheader">
@@ -62,7 +58,7 @@ function UserPage() {
             required
           />
           <input type="submit" />
-          <button onClick={() => cancelForm()}>
+          <button onClick={() => setEmailEdit(false)}>
             Cancel
           </button>
         </form>
