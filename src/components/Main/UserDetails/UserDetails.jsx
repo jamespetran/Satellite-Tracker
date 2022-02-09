@@ -1,10 +1,11 @@
-// import {history as }
+import { useHistory } from "react-router-dom";
 
 function UserDetails() {
+  const history=useHistory();
 
   const setLocation = () => {
     console.log('in setLocation');
-
+    history.push('/location');
   }
 
   return (

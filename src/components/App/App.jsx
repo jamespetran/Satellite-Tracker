@@ -20,6 +20,7 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import Main from '../Main/Main';
+import Location from '../Location/Location'
 
 import './App.css';
 
@@ -117,9 +118,16 @@ function App() {
               <LandingPage />
             }
           </Route>
+          <ProtectedRoute
+            exact
+            path="/location"
+          >
+            <Location />
+          </ProtectedRoute>
+
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
-            <h1>404</h1>
+            <h1 id="404-display">404</h1>
           </Route>
         </Switch>
         <Footer
