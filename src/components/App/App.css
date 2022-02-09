@@ -7,6 +7,7 @@ body,
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0px;
+  overflow: hidden;
 }
 
 img {
@@ -129,6 +130,7 @@ input {
   padding: 0 15px;
   align-self: stretch;
   height: 75vh;
+  background-color: lightgray;
 }
 #subheader > h2 {
    background-color:#444;
