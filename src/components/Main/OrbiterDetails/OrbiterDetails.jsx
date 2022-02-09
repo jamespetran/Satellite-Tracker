@@ -20,7 +20,7 @@ function OrbiterDetails() {
         <div>{satellites.map(satellite => satellite.displayed === true && <p key={satellite.id}>{satellite.noradID}</p>)}</div>
       </div>
       <div className="orbiter-item" id="orbit-details-btn">
-        <button className="main-btn button-80" onClick={() => setOrbiter()}>Select Satellite</button>
+        <button className="main-btn btn" onClick={() => setOrbiter()}>Select Satellite</button>
       </div>
     </div>
   )

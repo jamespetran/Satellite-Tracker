@@ -14,7 +14,7 @@ function UserDetails() {
         <h3 className="details-title">User Details:</h3>
       </div>
       <div className="user-item" id="orbit-details-btn">
-        <button className="main-btn button-80" onClick={() => setLocation()}>Set Location</button>
+        <button className="main-btn btn" onClick={() => setLocation()}>Set Location</button>
       </div>
 
     </div>

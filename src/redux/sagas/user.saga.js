@@ -55,12 +55,21 @@ function* setSaveLocation(value) {
       withCredentials: true,
     };
 
-    // console.log(`in setSaveLocation with value=${value}`)
-    yield axios.put(`/api/user/location/`, value, config);
+    // update "saveLocation" column with true/false
+    yield axios.put(`/api/user/location/`, { value }, config);
+
+    // if user is trying to set saveLocation = false, 
+    // then delete previously saved locations
+    if (value === false) {
+      yield axios.delete(`/api/user/location`, config);
+    }
+
+    yield put({ type: 'FETCH_USER' });
+
 
   }
   catch (error) {
-    console.error('error in setSaveLocation',error)
+    console.error('error in setSaveLocation', error)
   }
 }
 

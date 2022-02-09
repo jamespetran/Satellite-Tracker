@@ -59,44 +59,51 @@ function UserPage() {
       <div id="subheader">
         <h2>Your Account</h2>
       </div>
-
-      <h2>Welcome, {user.username}!</h2>
-      <p>Your ID is: {user.id}</p>
-      {emailEdit === false ?
-        <div>
-          <p>Current Email Address: {user.email}</p>
-          <button id="edit-mode-email-btn" onClick={() => setEmailEdit(true)}>Change</button>
-        </div>
-        :
-        <form onSubmit={(evt) => handleSubmit(evt)}>
-          <label htmlFor="email-input">Email Address:</label>
+      <div className="user-container">
+        <div className="user-item">
+          <h2>Welcome, {user.username}!</h2>
+          <p>Your ID is: {user.id}</p>
+          {emailEdit === false ?
+            <div>
+              <p>Current Email Address: {user.email}</p>
+              <button className="btn" id="edit-mode-email-btn" onClick={() => setEmailEdit(true)}>Change</button>
+            </div>
+            :
+            <form onSubmit={(evt) => handleSubmit(evt)}>
+              <label htmlFor="email-input">Email Address:</label>
+              <br />
+              <input
+                type="email"
+                id="email-input"
+                value={emailInput}
+                onChange={(evt) => setEmailInput(evt.target.value)}
+                required
+              />
+              <input type="submit" />
+              <button className="btn" onClick={() => setEmailEdit(false)}>
+                Cancel
+              </button>
+            </form>
+          }
           <br />
-          <input
-            type="email"
-            id="email-input"
-            value={emailInput}
-            onChange={(evt) => setEmailInput(evt.target.value)}
-            required
-          />
-          <input type="submit" />
-          <button onClick={() => setEmailEdit(false)}>
-            Cancel
-          </button>
-        </form>
-      }
-      {user.saveLocation ? 
-      <input type="checkbox" id="location-check" checked onClick={() => unSaveLocation()} /> 
-      :
-      <input type="checkbox" id="location-check" onClick={() => saveLocation()} /> 
+          {user.saveLocation ?
+            <input type="checkbox" id="location-check" checked onChange={() => unSaveLocation()} />
+            :
+            <input type="checkbox" id="location-check" onChange={() => saveLocation()} />
 
-      }
-      {/* <input type="checkbox" id="location-check" value={checked} /> */}
-      <span>Remember My Location</span>
-      <br />
-      <LogOutButton className="btn" />
+          }
+          {/* <input type="checkbox" id="location-check" value={checked} /> */}
+          <span>Remember My Location
+            <br />
+            (Warning: will immediately delete previously stored location data)
+          </span>
+        </div>
+        <div className="user-item">
+          <LogOutButton className="logout-btn btn" />
+        </div>
+      </div>
     </div>
   );
 }
 
-// this allows us to use <App /> in index.js
 export default UserPage;
