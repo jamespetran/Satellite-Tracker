@@ -9,6 +9,7 @@ function UserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
   const user = useSelector((store) => store.user);
 
+  console.log('user:', user);
   // if user email === \null\, then set this state to '' (blank string) 
   // (react doesn't like assigning \null\ to the input below)
   const [emailInput, setEmailInput] = useState(
@@ -16,6 +17,7 @@ function UserPage() {
   );
 
   const [emailEdit, setEmailEdit] = useState(false);
+  const [checked, setChecked] = useState(false);
 
 
   const handleSubmit = (evt) => {
@@ -33,6 +35,25 @@ function UserPage() {
     setEmailInput('');
     setEmailEdit(false)
   }
+
+  const unSaveLocation = () => {
+    // code that sets user.saveLocation to FALSE
+    // console.log(`unsave`);
+    dispatch({
+      type: 'UNSET_SAVE_LOCATION'
+    })
+
+  }
+
+  const saveLocation = () => {
+    // code that sets user.saveLocation to TRUE
+    // console.log(`save`);
+    dispatch({
+      type: 'SET_SAVE_LOCATION'
+    })
+  }
+
+
   return (
     <div className="main-content container">
       <div id="subheader">
@@ -63,6 +84,15 @@ function UserPage() {
           </button>
         </form>
       }
+      {user.saveLocation ? 
+      <input type="checkbox" id="location-check" checked onClick={() => unSaveLocation()} /> 
+      :
+      <input type="checkbox" id="location-check" onClick={() => saveLocation()} /> 
+
+      }
+      {/* <input type="checkbox" id="location-check" value={checked} /> */}
+      <span>Remember My Location</span>
+      <br />
       <LogOutButton className="btn" />
     </div>
   );

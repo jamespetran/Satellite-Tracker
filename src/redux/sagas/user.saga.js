@@ -37,8 +37,8 @@ function* setEmail(action) {
     // If a user is logged in, this will return their information
     // from the server session (req.user)
     // this will allow a user to set their email
-    console.log('action.payload:',action.payload)
-    yield axios.post('/api/user/email', email);
+    // console.log('action.payload:', action.payload)
+    yield axios.post('/api/user/email', email, config);
 
     // now have to get updated user info including inputted email address
     yield put({ type: 'FETCH_USER' });
@@ -48,9 +48,27 @@ function* setEmail(action) {
   }
 }
 
+function* setSaveLocation(value) {
+  try {
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+    };
+
+    // console.log(`in setSaveLocation with value=${value}`)
+    yield axios.put(`/api/user/location/`, value, config);
+
+  }
+  catch (error) {
+    console.error('error in setSaveLocation',error)
+  }
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
-  yield takeLatest('SET_EMAIL', setEmail)
+  yield takeLatest('SET_EMAIL', setEmail);
+  yield takeLatest('UNSET_SAVE_LOCATION', () => setSaveLocation(false));
+  yield takeLatest('SET_SAVE_LOCATION', () => setSaveLocation(true));
 }
 
 export default userSaga;
