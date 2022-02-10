@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 
 function OrbiterDetails() {
   const history=useHistory();
-  const satellites = useSelector(store => store.satellites);
+  const displayed = useSelector(store => store.displayed);
   const dispatch = useDispatch();
   // console.log(satellites);
 
@@ -21,7 +21,12 @@ function OrbiterDetails() {
     <div id="orbiter-details" className="detail-item content-wrapper-push-outside-col">
       <div className="orbiter-item">
         <h3 className="details-title">Orbiter Details:</h3>
-        <div>{satellites.map(satellite => satellite.displayed === true && <p key={satellite.id}>{satellite.noradID}</p>)}</div>
+        <p>Name: {displayed.name}</p>
+        <p>NORAD ID: {displayed.noradID}</p>
+        <p>TLE</p>
+        <code>{displayed.line1}
+        {displayed.line2}</code>
+
       </div>
       <div className="orbiter-item" id="orbit-details-btn">
         <button className="main-btn btn" onClick={() => setOrbiter()}>Select Satellite</button>
