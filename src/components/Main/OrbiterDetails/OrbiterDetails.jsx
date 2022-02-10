@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 
 
 function OrbiterDetails() {
-  const history=useHistory();
+  const history = useHistory();
   const displayed = useSelector(store => store.displayed);
   const dispatch = useDispatch();
   // console.log(satellites);
@@ -23,9 +23,13 @@ function OrbiterDetails() {
         <h3 className="details-title">Orbiter Details:</h3>
         <p>Name: {displayed.name}</p>
         <p>NORAD ID: {displayed.noradID}</p>
-        <p>TLE</p>
-        <code>{displayed.line1}
-        {displayed.line2}</code>
+        <p>TLE:</p>
+        <code>{
+          displayed.line1}
+          <br />
+          <br />
+          {displayed.line2}
+        </code>
 
       </div>
       <div className="orbiter-item" id="orbit-details-btn">
