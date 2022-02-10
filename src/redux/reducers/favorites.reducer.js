@@ -1,6 +1,6 @@
-const satelliteReducer = (state = [], action) => {
+const favoritesReducer = (state = [], action) => {
   switch (action.type) {
-    case 'SET_SATELLITES_LIST':
+    case 'SET_FAVORITES':
       return action.payload;
     default:
       return state;
@@ -9,4 +9,4 @@ const satelliteReducer = (state = [], action) => {
 
 // user will be on the redux state at:
 // state.user
-export default satelliteReducer;
+export default favoritesReducer;

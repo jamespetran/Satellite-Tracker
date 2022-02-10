@@ -31,20 +31,23 @@ import './App.css';
 function App() {
   const dispatch = useDispatch();
   const user = useSelector(store => store.user);
-  // console.log('subheader',subheader)
 
-  const getUserLocation = () => new Promise((resolve, reject) => {
-    navigator.geolocation.getCurrentPosition(
-      location => console.log(location),
-      error => console.log(error),
-    )
-  })
+  // const getUserLocation = () => new Promise((resolve, reject) => {
+  //   navigator.geolocation.getCurrentPosition(
+  //     location => console.log(location),
+  //     error => console.log(error),
+  //   )
+  // })
 
-  function* myGenerator() {
-    const location = yield call(getUserLocation);
-    const { latitude, longitude } = location.coords;
-    console.log(`latitude: ${latitude}, longitude: ${longitude}`);
-  }
+  // function* myGenerator() {
+  //   const location = yield call(getUserLocation);
+  //   const { latitude, longitude } = location.coords;
+  //   console.log(`latitude: ${latitude}, longitude: ${longitude}`);
+  // }
+  // useEffect(() => {
+  //   console.log('trying to run the location function now!')
+  //   myGenerator();
+  // }, [])
 
 
   useEffect(() => {
@@ -56,9 +59,13 @@ function App() {
   }, [])
 
   useEffect(() => {
-    console.log('trying to run the location function now!')
-    myGenerator();
-  }, [])
+    dispatch({ type: 'FETCH_SAT_TLE', payload: 1})
+  })
+
+  useEffect(() => {
+    dispatch({ type: 'FETCH_FAVORITES', payload: 1})
+  })
+
 
   return (
     <Router>
@@ -154,8 +161,8 @@ function App() {
           <ProtectedRoute
             exact
             path="/satellites">
-              <Satellites />
-            </ProtectedRoute>
+            <Satellites />
+          </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>

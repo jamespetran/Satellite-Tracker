@@ -3,6 +3,7 @@ import loginSaga from './login.saga';
 import registrationSaga from './registration.saga';
 import userSaga from './user.saga';
 import satelliteSaga from './satellite.saga';
+import favoriteSaga from './favorites.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -15,7 +16,8 @@ export default function* rootSaga() {
   yield all([
     loginSaga(), // login saga is now registered
     registrationSaga(),
-    userSaga(),
-    satelliteSaga(),
+    userSaga(), // user info
+    satelliteSaga(), // satellite api info
+    favoriteSaga(), // favorite items from database
   ]);
 }

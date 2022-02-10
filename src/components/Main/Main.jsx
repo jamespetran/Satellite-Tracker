@@ -14,7 +14,7 @@ function Main() {
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
-    dispatch({ type: 'GET_SATELLITES' });
+    dispatch({ type: 'GET_DISPLAYED' });
   }, [dispatch]);
 
 
