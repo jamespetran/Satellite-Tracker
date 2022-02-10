@@ -31,6 +31,7 @@ import './App.css';
 function App() {
   const dispatch = useDispatch();
   const user = useSelector(store => store.user);
+  const page = useSelector(store => store.page);
 
   // const getUserLocation = () => new Promise((resolve, reject) => {
   //   navigator.geolocation.getCurrentPosition(
@@ -59,7 +60,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_SAT_TLE', payload: 1})
+    dispatch({ type: 'FETCH_SAT_TLE', payload: page})
   })
 
   useEffect(() => {

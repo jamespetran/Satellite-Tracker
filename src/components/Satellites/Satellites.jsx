@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
+import './Satellites.css';
 
 function Satellites() {
   const dispatch = useDispatch();
@@ -12,6 +13,10 @@ function Satellites() {
   const favorites = useSelector(store => store.favorites);
 
   const [favMode, setMode] = useState(true);
+
+  const setDisplayed = () => {
+    
+  }
 
 
   return (
@@ -30,18 +35,21 @@ function Satellites() {
               Switch to popular satellites
             </button>
           </div>
-          <div>
+          <table>
             {favorites.map(favorite => {
-              {/* const satName = dispatch({
-                type: "GET_SAT_NAME",
-                payload: favorite.noradID
-              }) */}
-
               return (
-                <button key="favorite.noradID" className="btn">{favorite.name}</button>
+                <tr>
+                  <button
+                    key="favorite.noradID"
+                    className={favorite.displayed === true ? "btn displayed" : "btn"}
+                    onClick={() => setDisplayed(favorite.noradID)}
+                    >
+                    {favorite.name}{favorite.displayed === true && " (Shown)"}
+                  </button>
+                </tr>
               )
             })}
-          </div>
+          </table>
         </div>
         :
         <div>
