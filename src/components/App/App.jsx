@@ -33,24 +33,6 @@ function App() {
   const user = useSelector(store => store.user);
   const page = useSelector(store => store.page);
 
-  // const getUserLocation = () => new Promise((resolve, reject) => {
-  //   navigator.geolocation.getCurrentPosition(
-  //     location => console.log(location),
-  //     error => console.log(error),
-  //   )
-  // })
-
-  // function* myGenerator() {
-  //   const location = yield call(getUserLocation);
-  //   const { latitude, longitude } = location.coords;
-  //   console.log(`latitude: ${latitude}, longitude: ${longitude}`);
-  // }
-  // useEffect(() => {
-  //   console.log('trying to run the location function now!')
-  //   myGenerator();
-  // }, [])
-
-
   useEffect(() => {
     dispatch({ type: 'FETCH_DISPLAYED' });
   }, []);
@@ -60,7 +42,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_SAT_TLE', payload: page})
+    dispatch({ type: 'FETCH_SAT_TLE', payload: page.tle})
   })
 
   useEffect(() => {

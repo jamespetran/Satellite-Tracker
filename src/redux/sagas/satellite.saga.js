@@ -6,7 +6,7 @@ import { put, takeLatest } from 'redux-saga/effects';
 
 
 function* grabSatTle(action) {
-  
+  console.log("grab tle payload:",action.payload)
   try {
     const api = yield axios.get(`https://tle.ivanstanojevic.me/api/tle/?sort=popularity&page-size=10&page=${action.payload}`);
     const satellites = api.data.member;

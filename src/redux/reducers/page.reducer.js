@@ -1,4 +1,4 @@
-const displayedReducer = (state = { tle: 1, fav: 1 }, action) => {
+const displayedReducer = (state = { tle: 1, fav: 1, faveMode: true }, action) => {
   switch (action.type) {
     case 'NEXT_TLE_PAGE':
       return { ...state, tle: Number(state.tle) + 1 };
@@ -18,6 +18,10 @@ const displayedReducer = (state = { tle: 1, fav: 1 }, action) => {
           state :
           { ...state, fav: Number(state.fav) - 1 }
       );
+    case 'FAV_MODE':
+      return {...state, faveMode: true};
+    case 'POP_MODE':
+      return {...state, faveMode: false};
     default:
       return state;
   }
