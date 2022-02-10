@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
+import useGeolocation from 'react-hook-geolocation'
 
 import Footer from '../Footer/Footer';
 
@@ -20,17 +21,34 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import Main from '../Main/Main';
+import Location from '../Location/Location';
+import Satellites from '../Satellites/Satellites'
 
 import './App.css';
+
+
 
 function App() {
   const dispatch = useDispatch();
   const user = useSelector(store => store.user);
-  // console.log('subheader',subheader)
+  const page = useSelector(store => store.page);
+
   useEffect(() => {
     dispatch({ type: 'FETCH_DISPLAYED' });
+  }, []);
+
+  useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
-  }, [dispatch]);
+  }, [])
+
+  useEffect(() => {
+    dispatch({ type: 'FETCH_SAT_TLE', payload: page.tle})
+  })
+
+  useEffect(() => {
+    dispatch({ type: 'FETCH_FAVORITES', payload: 1})
+  })
+
 
   return (
     <Router>
@@ -117,9 +135,21 @@ function App() {
               <LandingPage />
             }
           </Route>
+          <ProtectedRoute
+            exact
+            path="/location"
+          >
+            <Location />
+          </ProtectedRoute>
+          <ProtectedRoute
+            exact
+            path="/satellites">
+            <Satellites />
+          </ProtectedRoute>
+
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
-            <h1>404</h1>
+            <h1 id="404-display">404</h1>
           </Route>
         </Switch>
         <Footer

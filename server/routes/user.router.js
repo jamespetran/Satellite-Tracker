@@ -59,6 +59,10 @@ router.post('/email', rejectUnauthenticated, (req, res) => {
   }
 })
 
+// validates that an entered email address is 
+// correctly formatted like an actual email address should be
+// regex code is adapted from 
+// https://stackoverflow.com/questions/201323/how-can-i-validate-an-email-address-using-a-regular-expression
 function validateEmail(email) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return re.test(email);
@@ -78,5 +82,48 @@ router.post('/logout', (req, res) => {
   req.logout();
   res.sendStatus(200);
 });
+
+
+//handles PUT api/user/location settings in database
+router.put('/location', (req, res) => {
+  // console.log(req);
+  const queryText = `
+    UPDATE "user"
+    SET "saveLocation" = $1
+    WHERE id = $2;
+  `;
+  const queryParams = [req.body.value, req.user.id]
+
+  pool.query(queryText, queryParams)
+    .then((dbRes) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    })
+});
+
+router.delete('/location', (req, res) => {
+  // delete existing latitude and longitude stored values
+  const queryText = `
+  UPDATE "user"
+  SET 
+    latitude = null, 
+    longitude = null
+  WHERE id = $1;
+  `;
+  const queryParams = [req.user.id];
+
+  pool.query(queryText, queryParams)
+    .then((dbRes) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      res.status(500).send(err);
+    })
+
+
+})
+
 
 module.exports = router;

@@ -14,7 +14,7 @@ function Main() {
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
-    dispatch({ type: 'GET_SATELLITES' });
+    dispatch({ type: 'GET_DISPLAYED' });
   }, [dispatch]);
 
 
@@ -26,7 +26,7 @@ function Main() {
   return (
     <div className="main-content">
       <div id="subheader">
-        <h2>{subheader.name}</h2>
+        <h2>{displayed.name}</h2>
       </div>
 
       <CesiumMap />
