@@ -7,13 +7,9 @@ function* fetchFavorites() {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true,
     };
-    const queryText = `
-    SELECT * FROM "trackedSatellite"
-    WHERE "userID" = $1
-    `
 
     const response = yield axios.get('/api/favorites', config);
-    yield console.log('fetchFavorites response', response)
+    // yield console.log('fetchFavorites response', response)
     yield put({type: 'SET_FAVORITES', payload: response.data})
   }
   catch (error) {
@@ -29,33 +25,9 @@ function* fetchDisplayed() {
       withCredentials: true,
     };
 
-    // the config includes credentials which
-    // allow the server session to recognize the user
-    // If a user is logged in, this will return their information
-    // from the server session (req.user)
-    const response = yield axios.get('/api/satellite/displayed', config);
-    // console.log(response.data);
-    // now that the session has given us a user object
-    // with an id and username set the client-side user object to let
-    // the client-side code know the user is logged in
-    // yield put({ type: 'SET_SATELLITE', payload: response.data });
-    yield put({type: "SET_SATELLITES", payload: response.data})
+    const response = yield axios.get('/api/favorites/displayed', config);
 
-    // set the displayed satellite to store
-    for (const satellite of response.data) {
-      if( satellite.displayed === true) { 
-        let displayedSat = yield axios.get(`https://tle.ivanstanojevic.me/api/tle/${satellite.noradID}`);
-        yield put({
-          type: `SET_DISPLAYED`,
-          payload: displayedSat.data,
-        });
-        yield put({ 
-          type: "SET_SUBHEAD_SAT", 
-          payload: displayedSat.data.name });
-        return;
-      }
-    }
-
+    yield put({type: 'SET_DISPLAYED', payload: response.data })
 
   } catch (error) {
     console.log('Satellite get request failed ~', error);
@@ -64,10 +36,6 @@ function* fetchDisplayed() {
 
 function* addDefaultSat(action) {
   try {
-    const config = {
-      headers: { 'Content-Type': 'application/json' },
-      withCredentials: true,
-    };
 
     let satData = yield axios.get('https://tle.ivanstanojevic.me/api/tle/25544')
     yield satData = {...satData, username: action.payload }
@@ -84,11 +52,44 @@ function* addDefaultSat(action) {
   }
 }
 
+function* addFavorite(action) {
+  try{
+    // console.log(action.payload)
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+    };
+    yield axios.post('/api/favorites', action.payload, config);
+    yield put({
+      type: 'FETCH_FAVORITES'
+    })
+  }
+  catch (error) {
+    console.log('ADD_TO_FAVES request failed ~', error);
+  }
+}
+
+function* deleteFavorite(action) {
+  // console.log("delete",action.payload)
+  try{
+    const config = {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true,
+    };
+    yield axios.delete(`/api/favorites/${action.payload.id}`, config)
+  }
+  catch (error) {
+    console.log('DELETE_FAVORITE request failed ~', error);
+  }
+}
+
 
 function* favoriteSaga() {
   yield takeLatest('FETCH_FAVORITES', fetchFavorites);
   yield takeLatest('GET_DISPLAYED', fetchDisplayed);
   yield takeLatest('ADD_DEFAULT_SAT', addDefaultSat);
+  yield takeLatest('ADD_TO_FAVES', addFavorite);
+  yield takeLatest('DELETE_FAVORITE', deleteFavorite);
 }
 
 export default favoriteSaga;

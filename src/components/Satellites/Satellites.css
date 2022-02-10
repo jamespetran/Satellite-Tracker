@@ -16,3 +16,16 @@ td>.btn{
 .sat-table{
   width: 100%;
 }
+.btn.in-fav{
+  background-color:rgb(162, 250, 9);
+  color:#000;
+}
+.btn.fav{
+  width: 80%;
+}
+.btn.delete{
+  width: 19%;
+  text-align:center;
+  padding: 10px 5px;
+  margin-left:1%;
+}

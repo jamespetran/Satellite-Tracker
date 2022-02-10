@@ -2,9 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-/**
- * GET route template
- */
+// get all from db linked to userid
 router.get('/', (req, res) => {
   // GET route code here
   const queryText = `
@@ -19,15 +17,35 @@ router.get('/', (req, res) => {
       res.send(dbRes.rows);
     })
     .catch(error => {
-      console.error('error in GET /satellite', error);
+      console.error('error in GET /favorites', error);
       res.status(500).send(error);
     });
 });
+
+// get from db where value:displayed = true
+router.get('/displayed', (req,res) => {
+  console.log('in GET /api/favorite/displayed')
+  const queryText = `
+  SELECT * FROM "trackedSatellite"
+  WHERE "userID" = $1 AND displayed = true;
+  `;
+  const queryParams = [ req.user.id ];
+  pool.query(queryText, queryParams)
+    .then(dbRes => {
+      res.status(200).send(dbRes.rows[0]);
+    })
+    .catch(error => {
+      console.error('error in GET /favorites/displayed', error);
+      res.status(500).send(error);
+    });
+})
+
+// post to db for new user registration
 router.post('/default', (req, res) => {
-  console.log('in POST /default')
+  console.log('in POST /api/favorite/default')
   // create ISS for new user upon registration -> 
   // with displayed=true
-  console.log(req.body)
+  // console.log(req.body)
   const queryText = `
   INSERT INTO "trackedSatellite" 
     ("userID", 
@@ -53,7 +71,7 @@ router.post('/default', (req, res) => {
     req.body.data.name,
     req.body.data.line1,
     req.body.data.line2
-  ]
+  ];
   pool.query(queryText, queryParams)
     .then((dbRes) => {
       res.sendStatus(201);
@@ -61,7 +79,45 @@ router.post('/default', (req, res) => {
     .catch(error => {
       console.log(error);
       res.status(500).send(error);
-    })
+    });
 })
+
+// add new fav to db
+router.post('/', (req, res) => {
+  console.log('in POST /api/favorite');
+  const queryText = `
+  INSERT INTO "trackedSatellite" 
+    ("userID", 
+    "noradID", 
+    "name",
+    "line1",
+    "line2")
+  VALUES
+    ($1,
+    $2,
+    $3,
+    $4,
+    $5)
+  `;
+  const queryParams = [
+    req.user.id,
+    req.body.satelliteId,
+    req.body.name,
+    req.body.line1,
+    req.body.line2
+  ];
+  pool.query(queryText, queryParams)
+  .then((dbRes) => {
+    res.sendStatus(201);
+  })
+  .catch(error => {
+    console.log(error);
+    res.status(500).send(error);
+  });
+});
+
+// delete from db
+// router.delete('/api/favorite')
+
 
 module.exports = router;

@@ -6,11 +6,11 @@ import { put, takeLatest } from 'redux-saga/effects';
 
 
 function* grabSatTle(action) {
-  console.log("grab tle payload:",action.payload)
+  // console.log("grab tle payload:",action.payload)
   try {
-    const api = yield axios.get(`https://tle.ivanstanojevic.me/api/tle/?sort=popularity&page-size=10&page=${action.payload}`);
+    const api = yield axios.get(`https://tle.ivanstanojevic.me/api/tle/?sort=popularity&page-size=8&page=${action.payload}`);
     const satellites = api.data.member;
-    console.log(satellites);
+    // console.log(satellites);
     yield put({type: 'SET_SATELLITES_LIST', payload: satellites});
   }
   catch (error) {
