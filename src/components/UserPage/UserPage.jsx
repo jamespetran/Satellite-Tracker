@@ -9,7 +9,7 @@ function UserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
   const user = useSelector((store) => store.user);
 
-  console.log('user:', user);
+  // console.log('user:', user);
   // if user email === \null\, then set this state to '' (blank string) 
   // (react doesn't like assigning \null\ to the input below)
   const [emailInput, setEmailInput] = useState(
@@ -79,7 +79,8 @@ function UserPage() {
                 onChange={(evt) => setEmailInput(evt.target.value)}
                 required
               />
-              <input type="submit" />
+              <br />
+              <input type="submit" className="btn" />
               <button className="btn" onClick={() => setEmailEdit(false)}>
                 Cancel
               </button>

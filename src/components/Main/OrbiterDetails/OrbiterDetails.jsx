@@ -1,13 +1,17 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from "react-router-dom";
+
 
 function OrbiterDetails() {
+  const history=useHistory();
   const satellites = useSelector(store => store.satellites);
   const dispatch = useDispatch();
   // console.log(satellites);
 
   const setOrbiter = () => {
-    console.log('in setOrbiter');
+    // console.log('in setOrbiter');
+    history.push('/satellites');
   } // end setOrbiter
 
   useEffect(() => {

@@ -21,27 +21,44 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import Main from '../Main/Main';
-import Location from '../Location/Location'
+import Location from '../Location/Location';
+import Satellites from '../Satellites/Satellites'
 
 import './App.css';
 
-function App() {
-  const onGeolocationUpdate = geolocation => {
-    console.log('Here’s some new data from the Geolocation API: ', geolocation)
-  }
 
-  const geolocation = useGeolocation({
-    maximumAge:         150000, 
-    timeout:            120000  
-  }, onGeolocationUpdate)
-  
+
+function App() {
   const dispatch = useDispatch();
   const user = useSelector(store => store.user);
   // console.log('subheader',subheader)
+
+  const getUserLocation = () => new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      location => console.log(location),
+      error => console.log(error),
+    )
+  })
+
+  function* myGenerator() {
+    const location = yield call(getUserLocation);
+    const { latitude, longitude } = location.coords;
+    console.log(`latitude: ${latitude}, longitude: ${longitude}`);
+  }
+
+
   useEffect(() => {
     dispatch({ type: 'FETCH_DISPLAYED' });
+  }, []);
+
+  useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
-  }, [dispatch]);
+  }, [])
+
+  useEffect(() => {
+    console.log('trying to run the location function now!')
+    myGenerator();
+  }, [])
 
   return (
     <Router>
@@ -134,6 +151,11 @@ function App() {
           >
             <Location />
           </ProtectedRoute>
+          <ProtectedRoute
+            exact
+            path="/satellites">
+              <Satellites />
+            </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
