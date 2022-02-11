@@ -34,6 +34,12 @@ function* fetchDisplayed() {
   }
 }
 
+function* addDisplayed(action) {
+  yield axios.put(`/api/favorites/displayed/${action.payload}`);
+  yield put({ type: 'GET_DISPLAYED' })
+
+}
+
 function* addDefaultSat(action) {
   try {
 
@@ -90,6 +96,7 @@ function* favoriteSaga() {
   yield takeLatest('ADD_DEFAULT_SAT', addDefaultSat);
   yield takeLatest('ADD_TO_FAVES', addFavorite);
   yield takeLatest('DELETE_FAVORITE', deleteFavorite);
+  yield takeLatest('ADD_DISPLAYED', addDisplayed);
 }
 
 export default favoriteSaga;

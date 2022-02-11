@@ -23,13 +23,13 @@ router.get('/', (req, res) => {
 });
 
 // get from db where value:displayed = true
-router.get('/displayed', (req,res) => {
+router.get('/displayed', (req, res) => {
   console.log('in GET /api/favorite/displayed')
   const queryText = `
   SELECT * FROM "trackedSatellite"
   WHERE "userID" = $1 AND displayed = true;
   `;
-  const queryParams = [ req.user.id ];
+  const queryParams = [req.user.id];
   pool.query(queryText, queryParams)
     .then(dbRes => {
       res.status(200).send(dbRes.rows[0]);
@@ -107,17 +107,41 @@ router.post('/', (req, res) => {
     req.body.line2
   ];
   pool.query(queryText, queryParams)
-  .then((dbRes) => {
-    res.sendStatus(201);
-  })
-  .catch(error => {
-    console.log(error);
-    res.status(500).send(error);
-  });
+    .then((dbRes) => {
+      res.sendStatus(201);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).send(error);
+    });
 });
 
 // delete from db
 // router.delete('/api/favorite')
 
+
+// set as displayed
+router.put('/displayed/:noradID', (req, res) => {
+  const queryText = ` 
+  UPDATE "trackedSatellite"
+  SET displayed = CASE 
+  					WHEN "noradID" = $2 THEN true
+  					WHEN "noradID" != $2 THEN false
+    END
+  WHERE "userID" = $1;  `;
+  const queryParams = [
+    req.user.id,
+    req.params.noradID
+  ];
+
+  pool.query(queryText, queryParams)
+    .then(dbRes => {
+      res.sendStatus(201)
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).send(error);
+    });
+})
 
 module.exports = router;

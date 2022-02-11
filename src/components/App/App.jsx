@@ -34,7 +34,7 @@ function App() {
   const page = useSelector(store => store.page);
 
   useEffect(() => {
-    dispatch({ type: 'FETCH_DISPLAYED' });
+    dispatch({ type: 'GET_DISPLAYED' });
   }, []);
 
   useEffect(() => {
