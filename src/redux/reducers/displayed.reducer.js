@@ -1,4 +1,4 @@
-const displayedReducer = (state = {name: "satellite"}, action) => {
+const displayedReducer = (state = {name: "Select a Satellite to Display"}, action) => {
   switch (action.type) {
     case 'SET_DISPLAYED':
       return action.payload;

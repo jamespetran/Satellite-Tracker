@@ -26,7 +26,7 @@ function* fetchDisplayed() {
     };
 
     const response = yield axios.get('/api/favorites/displayed', config);
-
+    
     yield put({type: 'SET_DISPLAYED', payload: response.data })
 
   } catch (error) {
@@ -82,7 +82,8 @@ function* deleteFavorite(action) {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true,
     };
-    yield axios.delete(`/api/favorites/${action.payload.id}`, config)
+    yield axios.delete(`/api/favorites/${action.payload.id}`, config);
+    yield put({ type: 'FETCH_FAVORITES' })
   }
   catch (error) {
     console.log('DELETE_FAVORITE request failed ~', error);

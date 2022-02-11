@@ -32,6 +32,15 @@ router.get('/displayed', (req, res) => {
   const queryParams = [req.user.id];
   pool.query(queryText, queryParams)
     .then(dbRes => {
+      // if no 
+      if (dbRes.rows.length ===0) {
+        dbRes.rows = [{
+          name: "Select a Satellite to Display",
+          noradID: "",
+          line1: "",
+          line2: "",
+        }]
+      }
       res.status(200).send(dbRes.rows[0]);
     })
     .catch(error => {
@@ -117,7 +126,26 @@ router.post('/', (req, res) => {
 });
 
 // delete from db
-// router.delete('/api/favorite')
+router.delete('/:id', (req,res) => {
+  const queryText =`
+  DELETE FROM "trackedSatellite" 
+  WHERE id= $1 AND "userID" = $2;
+  `;
+  const queryParams = [
+    req.params.id,
+    req.user.id
+  ];
+
+  pool.query(queryText, queryParams)
+  .then((dbRes) => {
+    res.sendStatus(200);
+  })
+  .catch(error => {
+    console.log(error);
+    res.status(500).send(error);
+  });
+// console.log(req.params.id);
+})
 
 
 // set as displayed

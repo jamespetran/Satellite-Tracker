@@ -144,3 +144,6 @@ canvas{
 .satellite-btn{
   margin: 3px;
 }
+p#orbiter-details{
+  margin-block-start: 2px;
+}
