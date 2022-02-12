@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 
+function sendPosition(position) {
+  // const dispatch = useDispatch();
+  // dispatch({ type: 'SET_LOCATION', payload: {lat: position.coords.latitude, lng: position.coords.longitude}})
+}
 
 function Location() {
   const location = useSelector(store => store.location)
@@ -14,8 +18,11 @@ function Location() {
     dispatch({ type: "QUERY_LOCATION", payload: locationInput })
   }
 
-  const geolocation = () {
-    
+  const geolocation = (evt) => {
+    evt.preventDefault();
+    // console.log('in geolocation')
+    dispatch({ type: "INIT_GEOLOCATION"})
+    // navigator.geolocation.getCurrentPosition(sendPosition);
   }
 
   return (
@@ -36,7 +43,7 @@ function Location() {
       </form>
 
       <p>Or click this button to allow your browser to geolocate for you</p>
-      <button onClick={() => geolocation()}>Geolocate</button>
+      <button onClick={(evt) => geolocation(evt)}>Geolocate</button>
       {/* Location is {geolocation.latitude} - {geolocation.longitude} */}
     </div>
   )

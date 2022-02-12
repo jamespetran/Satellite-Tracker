@@ -25,7 +25,26 @@ function* queryLocation(action) {
   yield put({ type: 'SET_LOCATION', payload: { lat, lng, formattedAddress } })
 }
 
+function* initGeolocation() {
+  navigator.geolocation.getCurrentPosition(onSuccess, onError);
+}
+
+function* onSuccess(position) {
+  console.log('in onSuccess')
+  const {
+    lat,
+    lng
+  } = position.coords;
+  const formattedAddress = null;
+  yield put({ type: 'SET_LOCATION', payload: { lat, lng, formattedAddress } })
+}
+function onError(){
+  console.log('in onError')
+  console.error("error in getting geolocation position 🙁")
+}
+
 function* locationSaga() {
   yield takeLatest('QUERY_LOCATION', queryLocation);
+  yield takeLatest('INIT_GEOLOCATION', initGeolocation);
 }
 export default locationSaga;
