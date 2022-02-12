@@ -14,6 +14,10 @@ function Location() {
     dispatch({ type: "QUERY_LOCATION", payload: locationInput })
   }
 
+  const geolocation = () {
+    
+  }
+
   return (
     <div className="main-content">
       <div id="subheader">
@@ -26,9 +30,13 @@ function Location() {
         {location.formattedAddress}
       </h3>
       <form onSubmit={(evt) => handleSubmit(evt)}>
+      <p>Search for your location</p>
       <input type="text" value={locationInput} onChange={(evt) => setLocationInput(evt.target.value)} />
       <input type="Submit" />
       </form>
+
+      <p>Or click this button to allow your browser to geolocate for you</p>
+      <button onClick={() => geolocation()}>Geolocate</button>
       {/* Location is {geolocation.latitude} - {geolocation.longitude} */}
     </div>
   )
