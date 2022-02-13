@@ -42,6 +42,7 @@ function Location() {
       <input type="Submit" />
       </form>
 
+      <p>This doesn't work yet, but it is coming soon! 🧐👇</p>
       <p>Or click this button to allow your browser to geolocate for you</p>
       <button onClick={(evt) => geolocation(evt)}>Geolocate</button>
       {/* Location is {geolocation.latitude} - {geolocation.longitude} */}

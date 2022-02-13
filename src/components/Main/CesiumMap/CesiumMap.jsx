@@ -4,20 +4,28 @@ import * as Cesium from 'cesium';
 import { useState } from 'react';
 import '../Main.css';
 // import "cesium/Build/Cesium/Widgets/widgets.css";
-import * as satellite from 'satellite.js';
+import * as satelliteJS from 'satellite.js';
 import { useSelector } from 'react-redux';
 
-function defineSatellite() {
+function getSatPosit(time) {
   const location = useSelector(store => store.location);
   const displayed = useSelector(store => store.displayed);
+  console.log(displayed);
 
   // Initialize a satellite record
-  const satrec = satellite.twoline2satrec(
+  const satrec = satelliteJS.twoline2satrec(
     displayed.line1,
     displayed.line2);
 
-  //  Propagate satellite using time since epoch (in minutes).
-  const positionAndVelocity = satellite.propagate(satrec, new Date());
+  // let positionAndVelocity
+  // //  Propagate satellite using time since epoch (in minutes).
+  // if (time === null) {
+  // conpositionAndVelocity = satelliteJS.propagate(satrec, new Date());
+  // } else {
+    const date = time;
+    const newDate = new Date();
+    const positionAndVelocity = satelliteJS.propagate(satrec, date);
+    // }
 
   // The position_velocity result is a key-value pair of ECI coordinates.
   // These are the base results from which all other coordinates are derived.
@@ -26,21 +34,21 @@ function defineSatellite() {
 
   // Set the Observer at specified location
   const observerGd = {
-    longitude: satellite.degreesToRadians(location.lat),
-    latitude: satellite.degreesToRadians(location.lng),
+    longitude: satelliteJS.degreesToRadians(location.lat),
+    latitude: satelliteJS.degreesToRadians(location.lng),
     height: 0.370
   };
 
   // You will need GMST for some of the coordinate transforms.
   // http://en.wikipedia.org/wiki/Sidereal_time#Definition
-  const gmst = satellite.gstime(new Date());
+  const gmst = satelliteJS.gstime(new Date());
 
   // You can get ECF, Geodetic, Look Angles, and Doppler Factor.
-  const positionEcf = satellite.eciToEcf(positionEci, gmst),
-    observerEcf = satellite.geodeticToEcf(observerGd),
-    positionGd = satellite.eciToGeodetic(positionEci, gmst),
-    lookAngles = satellite.ecfToLookAngles(observerGd, positionEcf);
-  // const dopplerFactor = satellite.dopplerFactor(observerCoordsEcf, positionEcf, velocityEcf);
+  const positionEcf = satelliteJS.eciToEcf(positionEci, gmst),
+    observerEcf = satelliteJS.geodeticToEcf(observerGd),
+    positionGd = satelliteJS.eciToGeodetic(positionEci, gmst),
+    lookAngles = satelliteJS.ecfToLookAngles(observerGd, positionEcf);
+  // const dopplerFactor = Satellite.dopplerFactor(observerCoordsEcf, positionEcf, velocityEcf);
   // observerCoordsEcf is not defined?? idk
 
   // The coordinates are all stored in key-value pairs.
@@ -60,22 +68,49 @@ function defineSatellite() {
     height = positionGd.height;
 
   //  Convert the RADIANS to DEGREES.
-  const longitudeDeg = satellite.degreesLong(longitude),
-    latitudeDeg = satellite.degreesLat(latitude);
+  const longitudeDeg = satelliteJS.degreesLong(longitude),
+    latitudeDeg = satelliteJS.degreesLat(latitude);
 
-  const satelliteLocation = { lat: longitudeDeg, lng: latitudeDeg };
+  const satelliteLocation = { lat: longitudeDeg, lng: latitudeDeg, height };
+
   return satelliteLocation;
+}
+
+function loopingSatellite(satTime, maxTimeS, timeStepS) {
+  let positionsOverTime = new Cesium.SampledPositionProperty();
+  const satrec = satelliteJS.twoline2satrec(
+    displayed.line1,
+    displayed.line2);
+
+  for (let i = 0; i < maxTimeS; i += timeStepS) {
+    const time = Cesium.JulianDate.addSeconds(satTime, i, new Cesium.JulianDate());
+    // ...Get position from satellite-js...
+    // const thisPosition = getSatPosit(satTime);
+    const positionAndVelocity = satelliteJS.propagate(satrec, date);
+
+    const positionEci = positionAndVelocity.position,
+    velocityEci = positionAndVelocity.velocity;
+
+
+    const positionToAdd = Cesium.Cartesian3.fromRadians(thisPosition.lng, thisPosition.lat, thisPosition.height * 1000);
+    positionsOverTime.addSample(time, positionToAdd);
+  }
+
+  return positionsOverTime;
+
 }
 
 function CesiumMap() {
   Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4OGQ1ODM0Yy03YzNkLTRjOTAtYTA0ZC1lNmJiMGIxZDc0NzQiLCJpZCI6ODEzMjIsImlhdCI6MTY0NDI1MzUxN30.WPQk8jpvzQSMyzi0WmpDW_qyVMXkp2vjnlo4N74VTJM';
-  const satLoc = defineSatellite();
+  // const satLoc = getSatPosit();
+  // runs loopingSatellite() for 5-minute positions over an hour time scale
+  const satLoc = loopingSatellite( new Date() , 3600, 600);
+  const location = useSelector(store => store.location);
 
-  const longitude = satLoc.lng;
-  const latitude = satLoc.lat;
 
-  console.log(`in CesiumMap:
-  longitude: ${longitude}, latitude: ${latitude}`)
+  // const { longitude, latitude } = satLoc.satelliteLocation;
+  const satPosits = satLoc;
+  console.log(satPosits);
 
   const west = -115.0;
   const south = 25.0;
@@ -113,7 +148,7 @@ function CesiumMap() {
         navigationHelpButton={false}
         sceneModePicker={false}
         timeline={false}
-        animation={false}
+        // animation={false}
         infoBox={false}
       >
         <ImageryLayer
@@ -127,7 +162,14 @@ function CesiumMap() {
           description={entityLoc.description}
           // position={Cartesian3.fromDegrees(139.767052, 35.681167, 100)}
           position={Cartesian3.fromDegrees(latitude, longitude, 408686)}
-          point={{ pixelSize: 10 }}>
+          point={{ pixelSize: 10, color: Cesium.Color.RED }}>
+        </Entity>
+        <Entity
+          name="Your location"
+          description="Where you are according to the location page"
+          position={Cartesian3.fromDegrees(location.lng, location.lat, 0)}
+          point={{ pixelSize: 10, color: Cesium.Color.GREENYELLOW, }}
+        >
         </Entity>
       </Viewer>
 
