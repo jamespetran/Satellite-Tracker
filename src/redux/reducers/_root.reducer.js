@@ -5,6 +5,7 @@ import satellites from './satellite.reducer';
 import displayed from './displayed.reducer';
 import favorites from './favorites.reducer';
 import page from './page.reducer';
+import location from './location.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   displayed, // stores the currently displayed satellite's info
   favorites, // grabs the user's saved satellites from the database
   page, // stores the current page of the api results
+  location, // stores the users location
 });
 
 export default rootReducer;

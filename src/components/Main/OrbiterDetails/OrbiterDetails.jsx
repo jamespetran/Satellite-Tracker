@@ -19,17 +19,23 @@ function OrbiterDetails() {
   }, [])
   return (
     <div id="orbiter-details" className="detail-item content-wrapper-push-outside-col">
-      <div className="orbiter-item">
-        <h3 className="details-title">Orbiter Details:</h3>
-        <p>Name: {displayed.name}</p>
-        <p>NORAD ID: {displayed.noradID}</p>
-        <p>TLE:</p>
-        <code>{
-          displayed.line1}
-          <br />
-          <br />
-          {displayed.line2}
-        </code>
+      <div className="orbiter-item" >
+        <h3 className="details-title">
+        {displayed.name !== "Select a Satellite to Display" ? "Orbiter Details:" : displayed.name}
+        </h3>
+        {displayed.name !== "Select a Satellite to Display" ?
+        <p id="orbiter-details">Name: {displayed.name}<br />
+          NORAD ID: {displayed.noradID}<br />TLE:
+          <code style={{ fontSize: "11px" }}>{
+            displayed.line1}
+            <br />
+            <br />
+            {displayed.line2}
+          </code>
+        </p>
+        :
+        null
+        }
 
       </div>
       <div className="orbiter-item" id="orbit-details-btn">

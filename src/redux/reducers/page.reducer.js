@@ -1,4 +1,4 @@
-const displayedReducer = (state = { tle: 1, fav: 1, faveMode: true }, action) => {
+const pageReducer = (state = { tle: 1, fav: 1, faveMode: true }, action) => {
   switch (action.type) {
     case 'NEXT_TLE_PAGE':
       return { ...state, tle: Number(state.tle) + 1 };
@@ -29,4 +29,4 @@ const displayedReducer = (state = { tle: 1, fav: 1, faveMode: true }, action) =>
 
 // user will be on the redux state at:
 // state.user
-export default displayedReducer;
+export default pageReducer;

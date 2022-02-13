@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
   WHERE "userID" = $1;
   `;
   const queryParams = [req.user.id];
-  console.log(req.user.id)
+  // console.log(req.user.id)
   pool.query(queryText, queryParams)
     .then((dbRes) => {
       // console.log('GET /favorites success', dbRes.rows)
@@ -23,15 +23,24 @@ router.get('/', (req, res) => {
 });
 
 // get from db where value:displayed = true
-router.get('/displayed', (req,res) => {
-  console.log('in GET /api/favorite/displayed')
+router.get('/displayed', (req, res) => {
+  // console.log('in GET /api/favorite/displayed')
   const queryText = `
   SELECT * FROM "trackedSatellite"
   WHERE "userID" = $1 AND displayed = true;
   `;
-  const queryParams = [ req.user.id ];
+  const queryParams = [req.user.id];
   pool.query(queryText, queryParams)
     .then(dbRes => {
+      // if no 
+      if (dbRes.rows.length ===0) {
+        dbRes.rows = [{
+          name: "Select a Satellite to Display",
+          noradID: "",
+          line1: "",
+          line2: "",
+        }]
+      }
       res.status(200).send(dbRes.rows[0]);
     })
     .catch(error => {
@@ -42,7 +51,7 @@ router.get('/displayed', (req,res) => {
 
 // post to db for new user registration
 router.post('/default', (req, res) => {
-  console.log('in POST /api/favorite/default')
+  // console.log('in POST /api/favorite/default')
   // create ISS for new user upon registration -> 
   // with displayed=true
   // console.log(req.body)
@@ -84,7 +93,7 @@ router.post('/default', (req, res) => {
 
 // add new fav to db
 router.post('/', (req, res) => {
-  console.log('in POST /api/favorite');
+  // console.log('in POST /api/favorite');
   const queryText = `
   INSERT INTO "trackedSatellite" 
     ("userID", 
@@ -107,17 +116,62 @@ router.post('/', (req, res) => {
     req.body.line2
   ];
   pool.query(queryText, queryParams)
+    .then((dbRes) => {
+      res.sendStatus(201);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).send(error);
+    });
+});
+
+// delete from db
+router.delete('/:id', (req,res) => {
+  
+  // dont' allow a user to delete the currently displayed satellite
+  const queryText =`
+  DELETE FROM "trackedSatellite" 
+  WHERE id= $1 AND "userID" = $2 AND displayed=false;
+  `;
+  const queryParams = [
+    req.params.id,
+    req.user.id
+  ];
+
+  pool.query(queryText, queryParams)
   .then((dbRes) => {
-    res.sendStatus(201);
+    res.sendStatus(200);
   })
   .catch(error => {
     console.log(error);
     res.status(500).send(error);
   });
-});
+// console.log(req.params.id);
+})
 
-// delete from db
-// router.delete('/api/favorite')
 
+// set as displayed
+router.put('/displayed/:noradID', (req, res) => {
+  const queryText = ` 
+  UPDATE "trackedSatellite"
+  SET displayed = CASE 
+  					WHEN "noradID" = $2 THEN true
+  					WHEN "noradID" != $2 THEN false
+    END
+  WHERE "userID" = $1;  `;
+  const queryParams = [
+    req.user.id,
+    req.params.noradID
+  ];
+
+  pool.query(queryText, queryParams)
+    .then(dbRes => {
+      res.sendStatus(201)
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).send(error);
+    });
+})
 
 module.exports = router;

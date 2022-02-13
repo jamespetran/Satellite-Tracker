@@ -5,11 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import './Main.css';
 
+
+
 function Main() {
   // selecting the satellite store
   const displayed = useSelector(store => store.displayed);
-  const subheader = useSelector(store => store.subHead);
-
+  const location = useSelector(store => store.location);
   const dispatch = useDispatch();
 
   useEffect(() => {

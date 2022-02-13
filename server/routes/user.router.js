@@ -35,9 +35,9 @@ router.post('/register', (req, res, next) => {
 // handles ajax requests to set email
 router.post('/email', rejectUnauthenticated, (req, res) => {
   const email = req.body.email;
-  console.log('post /email router w/ value:', email);
+  // console.log('post /email router w/ value:', email);
   // console.log('user:',req.user)
-  console.log(req.body.email);
+  // console.log(req.body.email);
   if (validateEmail(email)) {
     const sqlQuery = `
       UPDATE "user"

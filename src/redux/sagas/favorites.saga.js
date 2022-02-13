@@ -26,12 +26,18 @@ function* fetchDisplayed() {
     };
 
     const response = yield axios.get('/api/favorites/displayed', config);
-
+    
     yield put({type: 'SET_DISPLAYED', payload: response.data })
 
   } catch (error) {
     console.log('Satellite get request failed ~', error);
   }
+}
+
+function* addDisplayed(action) {
+  yield axios.put(`/api/favorites/displayed/${action.payload}`);
+  yield put({ type: 'GET_DISPLAYED' })
+
 }
 
 function* addDefaultSat(action) {
@@ -76,7 +82,8 @@ function* deleteFavorite(action) {
       headers: { 'Content-Type': 'application/json' },
       withCredentials: true,
     };
-    yield axios.delete(`/api/favorites/${action.payload.id}`, config)
+    yield axios.delete(`/api/favorites/${action.payload.id}`, config);
+    yield put({ type: 'FETCH_FAVORITES' })
   }
   catch (error) {
     console.log('DELETE_FAVORITE request failed ~', error);
@@ -90,6 +97,7 @@ function* favoriteSaga() {
   yield takeLatest('ADD_DEFAULT_SAT', addDefaultSat);
   yield takeLatest('ADD_TO_FAVES', addFavorite);
   yield takeLatest('DELETE_FAVORITE', deleteFavorite);
+  yield takeLatest('ADD_DISPLAYED', addDisplayed);
 }
 
 export default favoriteSaga;

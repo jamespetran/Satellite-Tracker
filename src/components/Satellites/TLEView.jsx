@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 function TLEView() {
   const satellites = useSelector(store => store.satellites);
   const favorites = useSelector(store => store.favorites);
+  const page = useSelector(store => store.page)
   const dispatch = useDispatch();
   
   const tle = (direction) => {

@@ -2,15 +2,24 @@ import { useSelector, useDispatch } from 'react-redux';
 
 function FavoritesView() {
   const favorites = useSelector(store => store.favorites);
+  const displayed = useSelector(store => store.displayed);
 
   const dispatch = useDispatch();
 
 
-  const setDisplayed = () => {
+  const setDisplayed = (id) => {
     console.log('in setDisplayed');
+    dispatch({
+      type: 'ADD_DISPLAYED',
+      payload: id
+    });
   } // end setDisplayed
 
   const handleDelete = (favorite) => {
+    if (favorite.id === displayed.id) {
+      console.log('error: cannot delete currently displayed satellite');
+      return false;
+    }
     dispatch({
       type: 'DELETE_FAVORITE',
       payload: favorite
@@ -21,7 +30,7 @@ function FavoritesView() {
     <div>
       {/* FAVORITES MODE */}
       <div id="subheader">
-        <h2>Stored Satellites </h2>
+        <h2>Select Satellite to Display </h2>
       </div>
       <div className="centered top-button">
         <button
@@ -39,10 +48,10 @@ function FavoritesView() {
               <tr key={favorite.noradID}>
                 <td>
                   <button
-                    className={favorite.displayed === true ? "fav btn displayed" : "fav btn"}
+                    className={favorite.name === displayed.name ?  "displayed fav btn" : "fav btn"}
                     onClick={() => setDisplayed(favorite.noradID)}
                   >
-                    {favorite.name}{favorite.displayed === true && " (Shown)"}
+                    {favorite.name}{favorite.name === displayed.name && " (Shown)"}
                   </button>
                   <button
                     className="btn delete"
