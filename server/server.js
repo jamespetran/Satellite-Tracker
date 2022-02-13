@@ -11,6 +11,7 @@ const passport = require('./strategies/user.strategy');
 const userRouter = require('./routes/user.router');
 const satelliteRouter = require('./routes/satellite.router.js');
 const favoritesRouter = require('./routes/favorites.router.js');
+const threePapiRouter = require('./routes/threePapi.router.js')
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -25,8 +26,10 @@ app.use(passport.session());
 
 /* Routes */
 app.use('/api/user', userRouter);
-app.use('/api/satellite', satelliteRouter)
-app.use('/api/favorites', favoritesRouter)
+app.use('/api/satellite', satelliteRouter);
+app.use('/api/favorites', favoritesRouter);
+app.use('/api/threePapi', threePapiRouter);
+
 
 // Serve static files
 app.use(express.static('build'));
