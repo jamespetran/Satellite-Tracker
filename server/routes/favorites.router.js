@@ -127,9 +127,11 @@ router.post('/', (req, res) => {
 
 // delete from db
 router.delete('/:id', (req,res) => {
+  
+  // dont' allow a user to delete the currently displayed satellite
   const queryText =`
   DELETE FROM "trackedSatellite" 
-  WHERE id= $1 AND "userID" = $2;
+  WHERE id= $1 AND "userID" = $2 AND displayed=false;
   `;
   const queryParams = [
     req.params.id,

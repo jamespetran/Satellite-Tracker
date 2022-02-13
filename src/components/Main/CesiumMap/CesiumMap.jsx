@@ -63,16 +63,17 @@ function defineSatellite() {
   const longitudeDeg = satellite.degreesLong(longitude),
     latitudeDeg = satellite.degreesLat(latitude);
 
-  const satelliteLocation = { lat: longitudeDeg, lng: latitudeDeg };
+  const satelliteLocation = { latitude: longitudeDeg, longitude: latitudeDeg };
   return satelliteLocation;
 }
 
 function CesiumMap() {
   Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4OGQ1ODM0Yy03YzNkLTRjOTAtYTA0ZC1lNmJiMGIxZDc0NzQiLCJpZCI6ODEzMjIsImlhdCI6MTY0NDI1MzUxN30.WPQk8jpvzQSMyzi0WmpDW_qyVMXkp2vjnlo4N74VTJM';
   const satLoc = defineSatellite();
+  const location = useSelector(store => store.location);
 
-  const longitude = satLoc.lng;
-  const latitude = satLoc.lat;
+
+  const { latitude, longitude } = satLoc;
 
   console.log(`in CesiumMap:
   longitude: ${longitude}, latitude: ${latitude}`)
@@ -91,13 +92,13 @@ function CesiumMap() {
   // let entityLat = -9.3.2581203075042;
 
   Cesium.Camera.DEFAULT_VIEW_FACTOR = 0;
-  Cesium.Camera.DEFAULT_VIEW_RECTANGLE = usaRectangle;
+  // Cesium.Camera.DEFAULT_VIEW_RECTANGLE = usaRectangle;
 
   // NOTE: Viewer constructed after default view is set.
 
   //default map background is black marble image
   const imageryProvider = new Cesium.IonImageryProvider({ assetId: 3812 })
-  const [entityLoc, setEntityLoc] = useState({ lat: 44.97354852465797, long: -93.2581203075042, name: "location name", description: "location description" });
+  // const [entityLoc, setEntityLoc] = useState({ lat: 44.97354852465797, long: -93.2581203075042, name: "location name", description: "location description" });
 
 
   return (
@@ -115,19 +116,30 @@ function CesiumMap() {
         timeline={false}
         animation={false}
         infoBox={false}
+        // these 2 force the map to be flat ~ comment out to make it a globe
+        sceneMode={Cesium.SceneMode.SCENE2D}
+        mapProjection={new Cesium.WebMercatorProjection()}
+
       >
-        <ImageryLayer
+        {/* <ImageryLayer
           imageryProvider={imageryProvider}
-        />
+        /> */}
         <Camera
 
         />
         <Entity
-          name={entityLoc.name}
-          description={entityLoc.description}
+          // name={entityLoc.name}
+          // description={entityLoc.description}
           // position={Cartesian3.fromDegrees(139.767052, 35.681167, 100)}
           position={Cartesian3.fromDegrees(latitude, longitude, 408686)}
-          point={{ pixelSize: 10 }}>
+          point={{ pixelSize: 10, color: Cesium.Color.RED }}>
+        </Entity>
+        <Entity
+          name="Your location"
+          description="Where you are according to the location page"
+          position={Cartesian3.fromDegrees(location.lng, location.lat, 0)}
+          point={{ pixelSize: 10, color: Cesium.Color.GREENYELLOW, }}
+        >
         </Entity>
       </Viewer>
 

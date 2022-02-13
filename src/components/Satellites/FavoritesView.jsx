@@ -16,6 +16,10 @@ function FavoritesView() {
   } // end setDisplayed
 
   const handleDelete = (favorite) => {
+    if (favorite.id === displayed.id) {
+      console.log('error: cannot delete currently displayed satellite');
+      return false;
+    }
     dispatch({
       type: 'DELETE_FAVORITE',
       payload: favorite
