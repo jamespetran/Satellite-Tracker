@@ -147,3 +147,6 @@ canvas{
 p#orbiter-details{
   margin-block-start: 2px;
 }
+#location-submit-form>.btn{
+  margin-top: 3px;
+}
