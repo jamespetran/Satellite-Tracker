@@ -1,12 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-
-function sendPosition(position) {
-  // const dispatch = useDispatch();
-  // dispatch({ type: 'SET_LOCATION', payload: {lat: position.coords.latitude, lng: position.coords.longitude}})
-}
-
 function Location() {
   const location = useSelector(store => store.location)
   const dispatch = useDispatch();

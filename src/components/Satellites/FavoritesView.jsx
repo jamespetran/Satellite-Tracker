@@ -48,17 +48,19 @@ function FavoritesView() {
               <tr key={favorite.noradID}>
                 <td>
                   <button
-                    className={favorite.name === displayed.name ?  "displayed fav btn" : "fav btn"}
+                    className={favorite.name === displayed.name ? "displayed fav btn" : "fav btn"}
                     onClick={() => setDisplayed(favorite.noradID)}
                   >
                     {favorite.name}{favorite.name === displayed.name && " (Shown)"}
                   </button>
-                  <button
-                    className="btn delete"
-                    onClick={()=> handleDelete(favorite)}
-                  >
-                    Delete
-                  </button>
+                  {favorite.name !== displayed.name &&
+                    <button
+                      className="btn delete"
+                      onClick={() => handleDelete(favorite)}
+                    >
+                      Delete
+                    </button>
+                  }
                 </td>
               </tr>
             )
