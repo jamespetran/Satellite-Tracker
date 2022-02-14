@@ -3,7 +3,7 @@ import { put, takeLatest } from 'redux-saga/effects';
 
 function* queryLocation(action) {
   console.log('in GET location from address')
-  const address = encodeURI(action.payload);
+  const address = encodeURI(action.payload.query);
   const googleResult = yield axios.post('/api/threePapi/',{address});
   console.log(googleResult);
   let lat, lng, formattedAddress;
@@ -20,6 +20,10 @@ function* queryLocation(action) {
 
   console.log("result is:", lat, lng);
   yield put({ type: 'SET_LOCATION', payload: { lat, lng, formattedAddress } })
+
+  if (action.payload.locationSave) {
+    yield put({type: "STORE_LOCATION", payload: { lat, lng} })
+  }
 }
 
 function* initGeolocation() {
