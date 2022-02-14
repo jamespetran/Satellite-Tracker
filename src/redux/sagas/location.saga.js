@@ -26,26 +26,36 @@ function* queryLocation(action) {
   }
 }
 
-function* initGeolocation() {
-  navigator.geolocation.getCurrentPosition(onSuccess, onError);
-}
+//this doesn't work :/
+// function* initGeolocation() {
+//   navigator.geolocation.getCurrentPosition(onSuccess, onError);
+// }
 
-function* onSuccess(position) {
-  console.log('in onSuccess')
-  const {
-    lat,
-    lng
-  } = position.coords;
-  const formattedAddress = null;
-  yield put({ type: 'SET_LOCATION', payload: { lat, lng, formattedAddress } })
-}
-function onError(){
-  console.log('in onError')
-  console.error("error in getting geolocation position 🙁")
+// function* onSuccess(position) {
+//   console.log('in onSuccess')
+//   const {
+//     lat,
+//     lng
+//   } = position.coords;
+//   const formattedAddress = null;
+//   yield put({ type: 'SET_LOCATION', payload: { lat, lng, formattedAddress } })
+// }
+// function onError(){
+//   console.log('in onError')
+//   console.error("error in getting geolocation position 🙁")
+// }
+
+function* sendLocToSQL(action) {
+
+  const location = action.payload
+  yield axios.post('/api/user/location', location);
+  
+
 }
 
 function* locationSaga() {
   yield takeLatest('QUERY_LOCATION', queryLocation);
-  yield takeLatest('INIT_GEOLOCATION', initGeolocation);
+  // yield takeLatest('INIT_GEOLOCATION', initGeolocation);
+  yield takeLatest('STORE_LOCATION', sendLocToSQL);
 }
 export default locationSaga;
