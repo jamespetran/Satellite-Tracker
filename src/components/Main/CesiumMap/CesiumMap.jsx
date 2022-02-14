@@ -75,8 +75,8 @@ function CesiumMap() {
 
   const { latitude, longitude } = satLoc;
 
-  console.log(`in CesiumMap:
-  longitude: ${longitude}, latitude: ${latitude}`)
+  // console.log(`in CesiumMap:
+  // longitude: ${longitude}, latitude: ${latitude}`)
 
   const west = -115.0;
   const south = 25.0;

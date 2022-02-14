@@ -4,7 +4,7 @@ import { put, takeLatest } from 'redux-saga/effects';
 function* queryLocation(action) {
   console.log('in GET location from address')
   const address = encodeURI(action.payload.query);
-  const googleResult = yield axios.post('/api/threePapi/',{address});
+  const googleResult = yield axios.post('/api/threePapi/latlng', { address });
   console.log(googleResult);
   let lat, lng, formattedAddress;
 
@@ -22,7 +22,7 @@ function* queryLocation(action) {
   yield put({ type: 'SET_LOCATION', payload: { lat, lng, formattedAddress } })
 
   if (action.payload.locationSave) {
-    yield put({type: "STORE_LOCATION", payload: { lat, lng} })
+    yield put({ type: "STORE_LOCATION", payload: { lat, lng } })
   }
 }
 
@@ -46,16 +46,24 @@ function* queryLocation(action) {
 // }
 
 function* sendLocToSQL(action) {
-
   const location = action.payload
   yield axios.post('/api/user/location', location);
-  
+}
 
+function* queryAddress(action) {
+  const location = action.payload;
+  // console.log("in queryAddress:",location);
+  const result = yield axios.post(`/api/threePapi/address`, location);
+  console.log("address result=", result.data);
+  yield put({type: `SET_LOCATION`,
+  payload: {lat: location.lat, lng: location.lng, formattedAddress: result.data.address}
+  })
 }
 
 function* locationSaga() {
   yield takeLatest('QUERY_LOCATION', queryLocation);
   // yield takeLatest('INIT_GEOLOCATION', initGeolocation);
   yield takeLatest('STORE_LOCATION', sendLocToSQL);
+  yield takeLatest('QUERY_ADDRESS', queryAddress);
 }
 export default locationSaga;
