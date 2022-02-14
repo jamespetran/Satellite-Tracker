@@ -38,7 +38,7 @@ function UserDetails() {
       </div>
       <div className="user-item" id="orbit-details-btn">
         {locationEdit ?
-          <form onSubmit={(evt) => handleLocationSubmit(evt)}>
+          <form id="location-submit-form" onSubmit={(evt) => handleLocationSubmit(evt)}>
             <label htmlFor="location-input" >Enter your location</label>
             <input
               type="text"
@@ -46,8 +46,8 @@ function UserDetails() {
               value={locationInput}
               onChange={(evt) => setLocationInput(evt.target.value)}
             />
-            <input type="submit" />
-            <button onClick={() => setLocationEdit(false)}>Cancel</button>
+            <input className="main-btn btn" type="submit" />
+            <button className="main-btn btn" onClick={() => setLocationEdit(false)}>Cancel</button>
           </form>
           :
           <button className="main-btn btn" onClick={() => setLocationEdit(true)}>Location</button>
