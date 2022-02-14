@@ -100,6 +100,8 @@ function CesiumMap() {
   const imageryProvider = new Cesium.IonImageryProvider({ assetId: 3812 })
   // const [entityLoc, setEntityLoc] = useState({ lat: 44.97354852465797, long: -93.2581203075042, name: "location name", description: "location description" });
 
+  const mapProjection = new Cesium.WebMercatorProjection();
+  const sceneMode = Cesium.SceneMode.SCENE2D;
 
   return (
     <div id="cesium-map">
@@ -117,8 +119,8 @@ function CesiumMap() {
         animation={false}
         infoBox={false}
         // these 2 force the map to be flat ~ comment out to make it a globe
-        sceneMode={Cesium.SceneMode.SCENE2D}
-        mapProjection={new Cesium.WebMercatorProjection()}
+        sceneMode={sceneMode}
+        mapProjection={mapProjection}
 
       >
         {/* <ImageryLayer
