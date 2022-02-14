@@ -5,6 +5,7 @@ import { useState } from 'react';
 function UserDetails() {
   const history = useHistory();
   const location = useSelector(store => store.location)
+  const user = useSelector(store => store.user)
   const [locationEdit, setLocationEdit] = useState(false);
   const [locationInput, setLocationInput] = useState('');
   const dispatch = useDispatch();
@@ -17,7 +18,13 @@ function UserDetails() {
 
   const handleLocationSubmit = (evt) => {
     evt.preventDefault();
-    dispatch({ type: "QUERY_LOCATION", payload: locationInput })
+    dispatch({
+      type: "QUERY_LOCATION",
+      payload: {query: locationInput, locationSave: user.saveLocation}
+    })
+    if (user.saveLocation) {
+      console.log("to be saved...")
+    }
     setLocationEdit(false);
     setLocationInput('');
   }
@@ -46,7 +53,7 @@ function UserDetails() {
               value={locationInput}
               onChange={(evt) => setLocationInput(evt.target.value)}
             />
-            <input className="main-btn btn" type="submit" />
+            <input className="btn" type="submit" />
             <button className="main-btn btn" onClick={() => setLocationEdit(false)}>Cancel</button>
           </form>
           :
