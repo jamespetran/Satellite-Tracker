@@ -120,9 +120,28 @@ router.delete('/location', (req, res) => {
     })
     .catch((err) => {
       res.status(500).send(err);
+    });
+})
+
+router.post('/location', (req, res) => {
+  const queryText = `
+  UPDATE "user"
+  SET latitude = $1, longitude = $2, elevation = 0
+  WHERE id = $3 AND "saveLocation" = true;
+  `;
+  const queryParams = [
+    req.body.lat,
+    req.body.lng,
+    req.user.id
+  ];
+  pool.query(queryText, queryParams)
+    .then(dbRes => {
+      res.sendStatus(200);
     })
-
-
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send(err);
+    });
 })
 
 
