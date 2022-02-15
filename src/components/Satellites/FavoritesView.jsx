@@ -6,7 +6,6 @@ function FavoritesView() {
 
   const dispatch = useDispatch();
 
-
   const setDisplayed = (id) => {
     console.log('in setDisplayed');
     dispatch({
