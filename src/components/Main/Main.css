@@ -21,7 +21,7 @@
   min-height: auto;
 }
 #orbit-details-btn{
-  padding: 1em;
+  padding: 1em 2px;
 }
 #user-details {
   display: flex;
@@ -149,4 +149,18 @@ p#orbiter-details{
 }
 #location-submit-form>.btn{
   margin-top: 3px;
+}
+button.half-btn, input.half-btn{
+  width: 50%;
+  margin: 5px;
+  margin-bottom: 10px;
+  padding: 10px;
+  margin-bottom: 0px;
+}
+#location-btn-container{
+  display: flex;
+  flex-flow: row nowrap;
+}
+#geolocate-component{
+  margin-bottom: 5px;
 }
