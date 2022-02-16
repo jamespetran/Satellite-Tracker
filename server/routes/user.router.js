@@ -103,16 +103,25 @@ router.put('/location/save', (req, res) => {
     })
 });
 
-router.put('/location', (req,res) => {
-  console.log(`req.body: `, req);
-  const queryText = `
-  UPDATE "user"
-  SET latitude = $1, longitude = $2
-  WHERE id = $3 AND "saveLocation" = $4
-  `
-  const queryParams = [
-    req.body.lat
-  ]
+router.put('/location', async (req, res) => {
+  try {
+    // console.log(`req.body: `, req.body);
+    const queryText = `
+    UPDATE "user"
+    SET latitude = $1, longitude = $2
+    WHERE id = $3 AND "saveLocation" = true
+    `;
+    const queryParams = [
+      req.body.latitude,
+      req.body.longitude,
+      req.user.id
+    ];
+    dbRes = await pool.query(queryText, queryParams);
+    await res.sendStatus(200);
+  }
+  catch (err) {
+    res.status(500).send(err);
+  }
 })
 
 router.delete('/location', (req, res) => {

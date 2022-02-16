@@ -78,10 +78,10 @@ function CesiumMap() {
   // console.log(`in CesiumMap:
   // longitude: ${longitude}, latitude: ${latitude}`)
 
-  const west = -115.0;
-  const south = 25.0;
-  const east = -75.0;
-  const north = 53.0;
+  const west = -100.0;
+  const south = -45.0;
+  const east = 50.0;
+  const north = 70.0;
 
   const usaRectangle = Cesium.Rectangle.fromDegrees(west, south, east, north);
 
@@ -126,9 +126,7 @@ function CesiumMap() {
         {/* <ImageryLayer
           imageryProvider={imageryProvider}
         /> */}
-        <Camera
-
-        />
+        <Camera />
         <Entity
           // name={entityLoc.name}
           // description={entityLoc.description}

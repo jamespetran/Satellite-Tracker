@@ -70,7 +70,7 @@ function TLEView() {
         >
           Prev
         </button>
-
+          <span style={{margin: "auto", marginLeft: "10px", marginRight: "10px" }}>Page {page.tle}</span>
         <button
           className="btn next-prev"
           onClick={() => tle('next')}

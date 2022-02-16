@@ -7,9 +7,6 @@ function RenderLocationOptions() {
   const history = useHistory();
   const user = useSelector(store => store.user)
   const dispatch = useDispatch();
-  const goToLocationPage = () => {
-    history.push('/location');
-  }
 
   const [locationEdit, setLocationEdit] = useState(false);
   const [locationInput, setLocationInput] = useState('');
@@ -56,7 +53,7 @@ function RenderLocationOptions() {
       );
     case 'loading': 
       return (
-      <div className="centered" style={{marginBottom: "10vh"}}> Loading <img src="public/images/loading.gif" /> </div>
+      <div className="centered" style={{marginBottom: "10vh"}}> Loading <img style={{height: '25px' }}src="images/loading.gif" /> </div>
       )
   }
 }
