@@ -29,7 +29,7 @@ function FavoritesView() {
     <div>
       {/* FAVORITES MODE */}
       <div id="subheader">
-        <h2>Select Satellite to Display </h2>
+        <h2>Saved Satellites </h2>
       </div>
       <div className="centered top-button">
         <button
