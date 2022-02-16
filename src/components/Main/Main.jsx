@@ -40,7 +40,7 @@ function Main() {
     dispatch({ type: 'FETCH_USER' });
     dispatch({ type: 'GET_DISPLAYED' });
     getAddress();
-  }, [dispatch]);
+  }, [dispatch, navigator.geolocation.getCurrentPosition]);
 
 
 
@@ -58,7 +58,9 @@ function Main() {
       <CesiumMap />
       <div id="details-container">
         <OrbiterDetails />
-        <UserDetails />
+        <UserDetails 
+          getAddress={getAddress}
+        />
       </div>
     </div>
   )

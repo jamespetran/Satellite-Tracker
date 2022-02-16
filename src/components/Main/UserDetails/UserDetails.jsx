@@ -1,33 +1,8 @@
-import { useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import RenderLocationOptions from './RenderLocationOptions'
 
 function UserDetails() {
-  const history = useHistory();
   const location = useSelector(store => store.location)
-  const user = useSelector(store => store.user)
-  const [locationEdit, setLocationEdit] = useState(false);
-  const [locationInput, setLocationInput] = useState('');
-  const dispatch = useDispatch();
-
-
-
-  const goToLocationPage = () => {
-    history.push('/location');
-  }
-
-  const handleLocationSubmit = (evt) => {
-    evt.preventDefault();
-    dispatch({
-      type: "QUERY_LOCATION",
-      payload: {query: locationInput, locationSave: user.saveLocation}
-    })
-    if (user.saveLocation) {
-      console.log("to be saved...")
-    }
-    setLocationEdit(false);
-    setLocationInput('');
-  }
 
   return (
     <div id="user-details" className="detail-item">
@@ -44,21 +19,7 @@ function UserDetails() {
         }
       </div>
       <div className="user-item" id="orbit-details-btn">
-        {locationEdit ?
-          <form id="location-submit-form" onSubmit={(evt) => handleLocationSubmit(evt)}>
-            <label htmlFor="location-input" >Enter your location</label>
-            <input
-              type="text"
-              id="location-input"
-              value={locationInput}
-              onChange={(evt) => setLocationInput(evt.target.value)}
-            />
-            <input className="btn" type="submit" />
-            <button className="main-btn btn" onClick={() => setLocationEdit(false)}>Cancel</button>
-          </form>
-          :
-          <button className="main-btn btn" onClick={() => setLocationEdit(true)}>Location</button>
-        }
+        <RenderLocationOptions />
       </div>
 
     </div>

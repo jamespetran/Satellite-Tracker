@@ -84,8 +84,8 @@ router.post('/logout', (req, res) => {
 });
 
 
-//handles PUT api/user/location settings in database
-router.put('/location', (req, res) => {
+//handles PUT api/user/location/save settings in database
+router.put('/location/save', (req, res) => {
   // console.log(req);
   const queryText = `
     UPDATE "user"
@@ -102,6 +102,18 @@ router.put('/location', (req, res) => {
       res.status(500).send(err);
     })
 });
+
+router.put('/location', (req,res) => {
+  console.log(`req.body: `, req);
+  const queryText = `
+  UPDATE "user"
+  SET latitude = $1, longitude = $2
+  WHERE id = $3 AND "saveLocation" = $4
+  `
+  const queryParams = [
+    req.body.lat
+  ]
+})
 
 router.delete('/location', (req, res) => {
   // delete existing latitude and longitude stored values

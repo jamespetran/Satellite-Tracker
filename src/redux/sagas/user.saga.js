@@ -56,7 +56,7 @@ function* setSaveLocation(value) {
     };
 
     // update "saveLocation" column with true/false
-    yield axios.put(`/api/user/location/`, { value }, config);
+    yield axios.put(`/api/user/location/save`, { value }, config);
 
     // if user is trying to set saveLocation = false, 
     // then delete previously saved locations
@@ -73,11 +73,23 @@ function* setSaveLocation(value) {
   }
 }
 
+function* storeLocation(action) {
+  console.log("action.payload:", action.payload)
+  const config = {
+    headers: { 'Content-Type': 'application/json' },
+    withCredentials: true,
+  };
+  const locationObject = {latitude: action.payload.lat, longitude: action.payload.lng}
+  axios.put('/api/user/location', locationObject, config);
+
+}
+
 function* userSaga() {
   yield takeLatest('FETCH_USER', fetchUser);
   yield takeLatest('SET_EMAIL', setEmail);
   yield takeLatest('UNSET_SAVE_LOCATION', () => setSaveLocation(false));
   yield takeLatest('SET_SAVE_LOCATION', () => setSaveLocation(true));
+  yield takeLatest('SET_LOCATION', storeLocation)
 }
 
 export default userSaga;
