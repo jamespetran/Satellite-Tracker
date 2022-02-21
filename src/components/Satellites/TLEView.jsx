@@ -48,7 +48,7 @@ function TLEView() {
                 <button
                   className={favorites.map(favorite => {
                     if (favorite.noradID === satellite.satelliteId) {
-                      return " in-fav ";
+                      return " in-fav btn satellite-btn ";
                     }
                     return " btn satellite-btn "
                   })}

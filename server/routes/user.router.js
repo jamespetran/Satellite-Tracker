@@ -85,7 +85,7 @@ router.post('/logout', (req, res) => {
 
 
 //handles PUT api/user/location/save settings in database
-router.put('/location/save', (req, res) => {
+router.put('/location/save', rejectUnauthenticated, (req, res) => {
   // console.log(req);
   const queryText = `
     UPDATE "user"
@@ -103,7 +103,7 @@ router.put('/location/save', (req, res) => {
     })
 });
 
-router.put('/location', async (req, res) => {
+router.put('/location', rejectUnauthenticated, async (req, res) => {
   try {
     // console.log(`req.body: `, req.body);
     const queryText = `

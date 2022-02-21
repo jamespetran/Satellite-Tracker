@@ -15,7 +15,7 @@ function Location() {
   const geolocation = (evt) => {
     evt.preventDefault();
     // console.log('in geolocation')
-    dispatch({ type: "INIT_GEOLOCATION"})
+    dispatch({ type: "INIT_GEOLOCATION" })
     // navigator.geolocation.getCurrentPosition(sendPosition);
   }
 
@@ -27,13 +27,13 @@ function Location() {
 
       <h3>
         Location is {location.lat} {location.lng}
-        <br /> 
+        <br />
         {location.formattedAddress}
       </h3>
       <form onSubmit={(evt) => handleSubmit(evt)}>
-      <p>Search for your location</p>
-      <input type="text" value={locationInput} onChange={(evt) => setLocationInput(evt.target.value)} />
-      <input type="Submit" />
+        <p>Search for your location</p>
+        <input type="text" value={locationInput} onChange={(evt) => setLocationInput(evt.target.value)} />
+        <input type="Submit" />
       </form>
 
       <p>Or click this button to allow your browser to geolocate for you</p>
